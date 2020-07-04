@@ -5,7 +5,7 @@
   "password": "",
   "database": "blog_development",
   "type": "postgres",
-  "synchronize": true,
+  "synchronize": false,
   "logging": false,
   "entities": [
     "dist/entity/**/*.js"
