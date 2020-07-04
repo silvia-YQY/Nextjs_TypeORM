@@ -14,7 +14,7 @@ export class CreatePost1593847669511 implements MigrationInterface {
                 generationStrategy: "increment"
             },{
                 name: 'title',
-                type: 'test'
+                type: 'varchar'
             },{
                 name: 'content',
                 type: 'text'
