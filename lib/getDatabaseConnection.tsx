@@ -2,18 +2,16 @@ import {createConnection, getConnectionManager} from "typeorm";
 
 const promise = (async function(){
     const manager = getConnectionManager()
-    const hasDefaultConnection = manager.has('default')
-    if(hasDefaultConnection){
-        console.log('復用');
+    if(!manager.has('default')){
+        return createConnection()
+    }else{
         const current = manager.get('default')
-        if(!current.isConnected){
-            console.log('被關閉了')
+        if(current.isConnected){
+            return current;
+        }else{
             return createConnection()
         }
-        return current
     }
-    console.log('创建connection')
-    return createConnection()
 })()
 
 export const getDatabaseConnection = async () =>{
