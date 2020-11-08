@@ -23,7 +23,7 @@ const Posts: NextApiHandler = async (req, res) => {
   if (username.trim().length > 42) {
     errors.username.push("too long");
   }
-  if (username.trim().length > 3) {
+  if (username.trim().length < 3) {
     errors.username.push("too short");
   }
   if (password === "") {
@@ -45,7 +45,7 @@ const Posts: NextApiHandler = async (req, res) => {
     user.passwordDigest = md5(password);
     await connection.manager.save(user);
     res.statusCode = 200;
-    res.write(JSON.stringify(errors));
+    res.write(JSON.stringify(user));
   }
   res.end();
 };
