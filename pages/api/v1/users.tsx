@@ -4,7 +4,6 @@ import { User } from "../../../src/entity/User";
 import md5 from "md5";
 
 const Posts: NextApiHandler = async (req, res) => {
-  console.log(req.body);
   const { username, password, passwordConfirmation } = req.body;
   const connection = await getDatabaseConnection();
 
@@ -33,7 +32,12 @@ const Posts: NextApiHandler = async (req, res) => {
   if (password !== passwordConfirmation) {
     errors.passwordConfirmation.push("密码不匹配");
   }
-
+  // 应用层进行校验，先查询
+  const found = connection.manager.findOne(User, {username});
+  if(found) {
+    errors.username.push('用户名已存在，不能重复注册')
+  }
+  
   const hasErrors = Object.values(errors).find((v) => v.length > 0);
   res.setHeader("Content-Type", "application/json; charset=utf-8 ");
   if (hasErrors) {
