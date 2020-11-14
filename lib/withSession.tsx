@@ -4,9 +4,8 @@ import { NextApiHandler } from "next";
 
 export default function withSession(handler: NextApiHandler) {
   return withIronSession(handler, {
-    // 对cookie加密的秘钥
-    // password: process.env.SECRET_COOKIE_PASSWORD,
-    password: "8eaac080-eb0d-4b03-9cf6-901a590c0b3b",
+    // 对cookie加密的秘钥,存储在环境变量中，读取
+    password: process.env.SECRET_COOKIE_PASSWORD,
     cookieName: "blog",
     cookieOptions: { secure: false },
   });
