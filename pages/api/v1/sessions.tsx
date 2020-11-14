@@ -1,5 +1,7 @@
 import { NextApiHandler } from "next";
 import { SignIn } from "../../../src/model/SignIn";
+import withSession from "../../../lib/withSession";
+
 const Sessions: NextApiHandler = async (req, res) => {
   const { username, password, passwordConfirmation } = req.body;
   res.setHeader("Content-Type", "application/json; charset=utf-8 ");
@@ -11,9 +13,12 @@ const Sessions: NextApiHandler = async (req, res) => {
     res.statusCode = 422;
     res.end(JSON.stringify(signIn.errors));
   } else {
+    // 在cookie注入session.id
+    req.session.set("currentUser", signIn.user);
+    await req.session.save();
     res.statusCode = 200;
     res.end(JSON.stringify(signIn.user));
   }
 };
 
-export default Sessions;
+export default withSession(Sessions);
