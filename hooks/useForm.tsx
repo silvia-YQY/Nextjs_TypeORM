@@ -6,12 +6,15 @@ type Field<T> = {
   key: keyof T;
 };
 
-export function useForm<T>(
-  initFormData: T,
-  fields: Field<T>[],
-  buttons: ReactChild,
-  onSubmit: (formData: T) => void
-) {
+type useFormOptions<T> = {
+  initFormData: T;
+  fields: Field<T>[];
+  buttons: ReactChild;
+  onSubmit: (formData: T) => void;
+};
+
+export function useForm<T>(options: useFormOptions<T>) {
+  const { initFormData, fields, buttons, onSubmit } = options;
   // 非受控
   const [formData, setFormData] = useState(initFormData);
   // initFormData = {username:'', password: ''}

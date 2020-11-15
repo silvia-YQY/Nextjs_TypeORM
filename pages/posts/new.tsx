@@ -3,6 +3,7 @@ import { Form } from "../../components/Form";
 import { useCallback, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useForm } from "../../hooks/useForm";
+import { type } from "os";
 
 const PostsNew: NextPage = () => {
   const initFormData = {
@@ -29,9 +30,9 @@ const PostsNew: NextPage = () => {
     );
     console.log("submit");
   };
-  const { form, setErrors } = useForm(
+  const { form, setErrors } = useForm({
     initFormData,
-    [
+    fields: [
       {
         label: "标题",
         type: "text",
@@ -44,8 +45,8 @@ const PostsNew: NextPage = () => {
       },
     ],
     buttons,
-    onSubmit
-  );
+    onSubmit,
+  });
   return <div>{form}</div>;
 };
 
