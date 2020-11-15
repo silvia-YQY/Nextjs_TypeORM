@@ -68,7 +68,7 @@ export function useForm<T>(options: useFormOptions<T>) {
   const form = (
     <form onSubmit={_onSubmit}>
       {fields.map((field) => (
-        <div>
+        <div key={field.key.toString()}>
           <label>
             {field.label}
             {field.type === "textarea" ? (

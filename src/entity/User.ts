@@ -39,11 +39,6 @@ export class User {
     password: string;
     passwordConfirmation: string;
     async validate() {
-        // this.errors = {
-        //     username: [] as string[],
-        //     password: [] as string[],
-        //     passwordConfirmation: [] as string[],
-        // }
         if (this.username.trim() === "") {
             this.errors.username.push("不能为空");
         }

@@ -62,3 +62,7 @@ yarn build
 yarn start
 ```
 
+## 注意事项
+
+第一次拉代码运行时，由于本地docker还没有创建数据库，同时src/entity/User.ts中 `getDatabaseConnection` 方法为连接数据库，两者冲突。会导致 yarn m:run 失败。
+目前的解决方案为，第一次运行创建数据库前，把 `getDatabaseConnection` 相关代码先注释。避开typeORM和ts两者的冲突。
