@@ -26,10 +26,10 @@ export class User {
     @UpdateDateColumn()
     updatedAt: Date
 
-    @OneToMany(type =>Post, post => post.author)
-    posts: Post[];
-    @OneToMany(type => Comment, comment => comment.user)
-    comments: Comment[]
+    // @OneToMany(type =>Post, post => post.author)
+    // posts: Post[];
+    // @OneToMany(type => Comment, comment => comment.user)
+    // comments: Comment[]
 
     errors = {
         username: [] as string[],

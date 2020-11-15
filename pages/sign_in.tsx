@@ -1,6 +1,5 @@
 import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
-import { useCallback, useState } from "react";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import withSession from "../lib/withSession";
 import { User } from "../src/entity/User";
 // @ts-ignore
