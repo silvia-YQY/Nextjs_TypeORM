@@ -4,7 +4,6 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import withSession from "../lib/withSession";
 import { User } from "../src/entity/User";
 import { Form } from "../components/Form";
-import validate = WebAssembly.validate;
 
 const SignIn: NextPage<{ user: User }> = (props) => {
   const [formData, setFormData] = useState({
@@ -35,7 +34,6 @@ const SignIn: NextPage<{ user: User }> = (props) => {
     },
     [formData]
   );
-
   const onChange = useCallback(
     (key, value) => {
       setFormData({
