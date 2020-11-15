@@ -1,4 +1,5 @@
-import { ChangeEventHandler, ReactChild, useCallback, useState } from "react";
+import { ReactChild, useCallback, useState } from "react";
+import { AxiosResponse } from "axios";
 
 type Field<T> = {
   label: string;
@@ -10,14 +11,16 @@ type useFormOptions<T> = {
   initFormData: T;
   fields: Field<T>[];
   buttons: ReactChild;
-  onSubmit: (formData: T) => void;
+  submit: {
+    request: (formData: T) => Promise<AxiosResponse<T>>;
+    message: string;
+  };
 };
 
 export function useForm<T>(options: useFormOptions<T>) {
-  const { initFormData, fields, buttons, onSubmit } = options;
+  const { initFormData, fields, buttons, submit } = options;
   // 非受控
   const [formData, setFormData] = useState(initFormData);
-  // initFormData = {username:'', password: ''}
   const [errors, setErrors] = useState(() => {
     // e的类型为对象， 对象里面为数组，数组里面的key/value均为string
     // in keyof 指 k 为 T 的所有下标的类型相同
@@ -44,9 +47,22 @@ export function useForm<T>(options: useFormOptions<T>) {
   const _onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      onSubmit(formData);
+      submit.request(formData).then(
+        () => {
+          window.alert(submit.message);
+        },
+        (error) => {
+          if (error.response) {
+            const response: AxiosResponse = error.response;
+            if (response.status === 422) {
+              setErrors(response.data);
+            }
+          }
+          console.log(error.response);
+        }
+      );
     },
-    [onSubmit, formData]
+    [submit, formData]
   );
 
   const form = (

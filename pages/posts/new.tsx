@@ -3,35 +3,13 @@ import { Form } from "../../components/Form";
 import { useCallback, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useForm } from "../../hooks/useForm";
-import { type } from "os";
 
 const PostsNew: NextPage = () => {
-  const initFormData = {
-    title: "",
-    content: "",
-  };
-  const buttons = (
-    <>
-      <button type="submit">提交</button>
-    </>
-  );
-  const onSubmit = (formData: typeof initFormData) => {
-    axios.post(`/api/v1/posts`, formData).then(
-      () => {},
-      (error) => {
-        if (error.response) {
-          const response: AxiosResponse = error.response;
-          if (response.status === 422) {
-            setErrors(response.data);
-          }
-        }
-        console.log(error.response);
-      }
-    );
-    console.log("submit");
-  };
-  const { form, setErrors } = useForm({
-    initFormData,
+  const { form } = useForm({
+    initFormData: {
+      title: "",
+      content: "",
+    },
     fields: [
       {
         label: "标题",
@@ -44,8 +22,11 @@ const PostsNew: NextPage = () => {
         key: "content",
       },
     ],
-    buttons,
-    onSubmit,
+    buttons: <button type="submit">提交</button>,
+    submit: {
+      request: (formData) => axios.post(`/api/v1/posts`, formData),
+      message: "提交成功",
+    },
   });
   return <div>{form}</div>;
 };
